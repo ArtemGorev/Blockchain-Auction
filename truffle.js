@@ -11,13 +11,25 @@ module.exports = {
   },
   rpc: {
     host: "localhost",
-    port: 8545
+    port: 8545,
+    gas: 10485760
   },
   networks: {
-    "private":{
-      network_id: 123123,
-      host: "10.240.18.5",
-      port: 8080
+    "parity": {
+      network_id: 8995,
+      host: "13.93.51.19",
+      port: 8540
+    },
+    "development": {
+      network_id: 1,
+      host: "127.0.0.1",
+      port: 8545,
+      gas: 10485760
+    },
+    "do":{
+      network_id: 1900,
+      host: "95.85.29.240",
+      port: 8000
     }
   }
 };

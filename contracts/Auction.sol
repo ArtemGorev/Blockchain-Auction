@@ -94,7 +94,7 @@ contract mortal {
 
 contract Auction is mortal {
 
-	event log(string log); // LOGGING EVENT
+	event log(string msg); // LOGGING EVENT
 
 	struct Lot {
 		address owner;
@@ -102,7 +102,7 @@ contract Auction is mortal {
 		string description;
 		uint startPrice;
 		uint step;
-    uint startTime;
+        uint startTime;
 		uint duration;
 		string photo;
 	}
@@ -176,6 +176,7 @@ contract Auction is mortal {
 				concat5(owner, title, description, startPrice, step),
 				concat4(startTime, duration, photo, lastBet));
 	}
+	
 	function getTraderLotsAmount() constant returns (uint) {
 		uint count = 0;
 		for(uint i = 0 ; i < lots.length; i++)
@@ -203,7 +204,7 @@ contract Auction is mortal {
 
 				count++;
 		}
-		throw;
+		revert();
 	}
 
 	function postBet(uint _index) payable {
@@ -214,13 +215,13 @@ contract Auction is mortal {
 
 		// checking lot duration
 		// if(now > lot.startTime + lot.duration)
-		//	throw;
+		//	revert();
 
 		// compare last bet and pending
 		if (lotBets.length > 0) {
 			Bet last = lotBets[lotBets.length-1];
 			if(last.value > msg.value)
-				throw;
+				revert();
 		}
 
 		// checking deposit
@@ -230,13 +231,13 @@ contract Auction is mortal {
 		var currentPrice = currentPriceWithoutDeposit + deposit;
 
 		if(currentPrice > msg.value)
-			throw;
+			revert();
 
 		// return to last betting guys his funds
 		if(lotBets.length != 0) {
 			Bet lastBet = lotBets[lotBets.length-1];
 			if(!last.owner.send(last.value))
-				throw;
+				revert();
 		}
 
 		// adding bet
@@ -259,7 +260,7 @@ contract Auction is mortal {
 		// checking lot duration
 		/*if(now < lot.startTime + lot.duration){
 			log("(now < lot.startTime + lot.duration)");
-			throw;
+			revert();
 		}*/
 
 
